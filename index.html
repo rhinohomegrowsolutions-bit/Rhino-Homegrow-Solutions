@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rhino Homegrow Solutions</title>
+
+  <style>
+    :root {
+      --green-dark: #173d25;
+      --green-main: #2f6b3f;
+      --green-soft: #eaf5ec;
+      --orange: #f28c28;
+      --cream: #fff8ed;
+      --text: #1f2a24;
+      --muted: #5f6f66;
+      --white: #ffffff;
+      --shadow: 0 16px 40px rgba(23, 61, 37, 0.15);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-wrapper {
+      overflow: hidden;
+    }
+
+    header {
+      background:
+        radial-gradient(circle at top left, rgba(242, 140, 40, 0.22), transparent 32%),
+        linear-gradient(135deg, var(--green-dark), var(--green-main));
+      color: var(--white);
+      padding: 28px 20px 80px;
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .logo-wrap {
+      width: 120px;
+      height: 120px;
+      border-radius: 22px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      flex-shrink: 0;
+    }
+
+    .logo-wrap img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    .logo-fallback {
+      display: none;
+      width: 120px;
+      height: 120px;
+      border-radius: 22px;
+      background: var(--orange);
+      color: var(--green-dark);
+      font-weight: 900;
+      font-size: 42px;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .brand-text span {
+      color: #f8d7a5;
+      font-size: 0.98rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      opacity: 0.95;
+    }
+
+    .nav-links a:hover {
+      color: #ffd9a1;
+    }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.65rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy h1 span {
+      color: #ffc16b;
+    }
+
+    .hero-copy p {
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+      max-width: 700px;
+      color: #f2fff5;
+      margin-bottom: 26px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 900;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: var(--green-dark);
+      box-shadow: 0 12px 26px rgba(242, 140, 40, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #ff9b38;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card-logo {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+    }
+
+    .hero-card-logo img {
+      width: min(100%, 320px);
+      max-height: 300px;
+      object-fit: contain;
+    }
+
+    .hero-card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .hero-card p {
+      color: #effff3;
+      margin-bottom: 0;
+    }
+
+    section {
+      padding: 86px 20px;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 46px;
+    }
+
+    .section-heading span {
+      color: var(--orange);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.85rem;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: var(--green-dark);
+      margin-top: 8px;
+    }
+
+    .section-heading p {
+      max-width: 780px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(47, 107, 63, 0.1);
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-main);
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .service-card h3 {
+      color: var(--green-dark);
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+    }
+
+    .service-card strong {
+      color: var(--green-dark);
+    }
+
+    .about {
+      background: var(--green-soft);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .about-panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-panel h2 {
+      color: var(--green-dark);
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    .about-panel p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-main));
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .highlight-box h3 {
+      font-size: 1.7rem;
+      margin-bottom: 18px;
+    }
+
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 34px;
+      color: #f3fff5;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.9rem;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .process-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border-top: 6px solid var(--orange);
+    }
+
+    .process-number {
+      color: var(--orange);
+      font-weight: 900;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .process-card h3 {
+      color: var(--green-dark);
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+    }
+
+    .process-card p {
+      color: var(--muted);
+    }
+
+    .contact {
+      background:
+        radial-gradient(circle at bottom right, rgba(242, 140, 40, 0.2), transparent 28%),
+        var(--green-dark);
+      color: var(--white);
+    }
+
+    .contact .section-heading h2,
+    .contact .section-heading p {
+      color: var(--white);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .contact-card,
+    .form-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-card h3,
+    .form-card h3 {
+      font-size: 1.55rem;
+      margin-bottom: 18px;
+    }
+
+    .contact-line {
+      display: block;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      color: #ffffff;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-line span {
+      color: #ffc16b;
+      margin-right: 6px;
+    }
+
+    .contact-line:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      font-weight: 800;
+      color: #ffffff;
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .submit-note {
+      color: #e5ffec;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+
+    footer {
+      background: #102b1a;
+      color: #cfe8d5;
+      text-align: center;
+      padding: 22px 20px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 920px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+
+      .hero,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-card-logo {
+        min-height: 210px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      header {
+        padding-top: 20px;
+      }
+
+      .brand {
+        align-items: center;
+      }
+
+      .logo-wrap,
+      .logo-wrap img,
+      .logo-fallback {
+        width: 92px;
+        height: 92px;
+      }
+
+      .brand-text strong {
+        font-size: 1.35rem;
+      }
+
+      .nav-links {
+        gap: 12px;
+        font-size: 0.9rem;
+      }
+
+      .hero-copy h1 {
+        font-size: 3rem;
+      }
+
+      .hero-card,
+      .service-card,
+      .about-panel,
+      .highlight-box,
+      .contact-card,
+      .form-card {
+        padding: 22px;
+      }
+
+      .process-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 64px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+
+    <header id="top">
+      <nav class="nav">
+        <a href="#top" class="brand" aria-label="Rhino Homegrow Solutions home">
+          <div class="logo-wrap">
+            <img
+              src="./rhino-logo.png"
+              alt="Rhino Homegrow Solutions logo"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="logo-fallback">RHS</div>
+          </div>
+
+          <div class="brand-text">
+            <strong>Rhino Homegrow Solutions</strong>
+            <span>Upstate NY & Adirondack grow support</span>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#process">Process</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+      <div class="hero">
+        <div class="hero-copy">
+          <h1>Simple homegrow help for <span>healthier plants.</span></h1>
+          <p>
+            Rhino Homegrow Solutions helps new and everyday growers set up clean, efficient,
+            stress-free home grow systems built for Upstate New York and Adirondack climates.
+          </p>
+
+          <div class="hero-badges">
+            <div class="badge">Indoor grow setup</div>
+            <div class="badge">Remote video guidance</div>
+            <div class="badge">Adirondack climate experience</div>
+            <div class="badge">Simple step-by-step support</div>
+          </div>
+
+          <div class="button-row">
+            <a class="btn btn-primary" href="#contact">Start Your Grow Plan</a>
+            <a class="btn btn-secondary" href="#services">View Services</a>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-logo">
+            <img
+              src="./rhino-logo.png"
+              alt="Rhino Homegrow Solutions logo large display"
+              onerror="this.style.display='none';"
+            />
+          </div>
+          <h2>Grow with confidence from day one.</h2>
+          <p>
+            From setup and planning to remote monitoring and grow support, we make home growing
+            easier, cleaner, and less overwhelming.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-heading">
+          <span>What We Do</span>
+          <h2>Practical grow support without the confusion.</h2>
+          <p>
+            Whether you need a full setup plan, help dialing in your tent, or ongoing guidance,
+            Rhino Homegrow Solutions gives you a clear path to follow.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🌱</div>
+            <h3>Setup and Planning</h3>
+            <p>
+              We help plan your grow space, equipment, lighting, airflow, containers, soil, and
+              schedule. You also receive a <strong>personalized step-by-step guide</strong> to
+              follow for a simple, stress-free grow.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🎥</div>
+            <h3>Remote Video Monitoring</h3>
+            <p>
+              We offer remote video grow monitoring and guidance. With the right setup, we can
+              completely control your grow tent environment, including
+              <strong>temperature, humidity, and watering remotely.</strong>
+              In that situation, the client simply sources and plants the seed, removes humidity
+              domes when it is time, and adds nutrients at pre-determined times while we help
+              control everything else remotely.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🏔️</div>
+            <h3>Upstate NY Grow Guidance</h3>
+            <p>
+              We specialize in growing in <strong>Upstate New York and Adirondack climates</strong>,
+              where short outdoor seasons, humidity swings, cool nights, and indoor winter growing
+              all require smart planning.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">💡</div>
+            <h3>Beginner-Friendly Education</h3>
+            <p>
+              We explain what matters most in plain language, including lighting, watering,
+              airflow, transplanting, soil health, nutrients, and avoiding common beginner mistakes.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🛠️</div>
+            <h3>Grow Tent Optimization</h3>
+            <p>
+              Already have equipment? We can help improve your layout, airflow, humidity control,
+              light height, watering schedule, and overall environment.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🤝</div>
+            <h3>Ongoing Grow Support</h3>
+            <p>
+              Get friendly grow support throughout the process so you are not guessing every step.
+              We help you stay organized, prepared, and confident as your plants develop.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-panel">
+            <h2>Built for local growers who want it simple.</h2>
+            <p>
+              Rhino Homegrow Solutions was created to make home growing easier for people in
+              Upstate NY and the Adirondack region. The goal is simple: help clients build a clean,
+              manageable grow system and understand exactly what to do next.
+            </p>
+            <p>
+              Led by Ryan Brainard, Rhino Homegrow Solutions focuses on practical setup help,
+              clear education, and personalized grow guidance for beginners and everyday home growers.
+            </p>
+            <p>
+              We help you avoid wasted money, confusing equipment choices, poor airflow, weak
+              lighting, overwatering, and other common issues that slow down a grow before it has
+              a chance to thrive.
+            </p>
+          </div>
+
+          <div class="highlight-box">
+            <h3>Why growers choose Rhino Homegrow Solutions</h3>
+            <ul class="check-list">
+              <li>Personalized guidance instead of generic advice.</li>
+              <li>Setup plans designed around your home, budget, and goals.</li>
+              <li>Support for indoor, outdoor, and hybrid grow approaches.</li>
+              <li>Experience with Upstate NY and Adirondack climate challenges.</li>
+              <li>Remote video support available for easier ongoing grow management.</li>
+              <li>Simple instructions that help reduce stress and beginner mistakes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="container">
+        <div class="section-heading">
+          <span>How It Works</span>
+          <h2>A clear path from idea to healthy grow.</h2>
+          <p>
+            We keep the process simple, practical, and easy to follow.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-card">
+            <div class="process-number">Step 01</div>
+            <h3>Tell us your goals</h3>
+            <p>
+              Share your space, budget, experience level, and what type of grow you want to build.
+            </p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-number">Step 02</div>
+            <h3>Get your plan</h3>
+            <p>
+              We create a simple setup and planning guide built around your home and climate.
+            </p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-number">Step 03</div>
+            <h3>Set up with confidence</h3>
+            <p>
+              We help you understand equipment placement, airflow, watering, lighting, and timing.
+            </p>
+          </div>
+
+          <div class="process-card">
+            <div class="process-number">Step 04</div>
+            <h3>Receive grow support</h3>
+            <p>
+              Stay on track with remote video guidance, check-ins, and simple next-step support.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-heading">
+          <span>Contact</span>
+          <h2>Ready to make your grow easier?</h2>
+          <p>
+            Reach out today and tell us what kind of grow setup or support you are looking for.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Contact Info</h3>
+
+            <a class="contact-line" href="tel:15186233645">
+              <span>Phone:</span> 518-623-3645
+            </a>
+
+            <a class="contact-line" href="mailto:rhinohomegrow@gmail.com">
+              <span>Email:</span> rhinohomegrow@gmail.com
+            </a>
+
+            <a class="contact-line" href="https://www.facebook.com/search/top?q=Rhino%20Homegrow%20Solutions" target="_blank" rel="noopener">
+              <span>Facebook:</span> Rhino Homegrow Solutions
+            </a>
+
+            <a class="contact-line" href="https://www.instagram.com/rhinohomegrowsolutions" target="_blank" rel="noopener">
+              <span>Instagram:</span> @rhinohomegrowsolutions
+            </a>
+
+            <p style="margin-top: 20px; color: #e8ffed;">
+              Serving home growers in Upstate New York, the Adirondacks, Glens Falls, Queensbury,
+              Lake George, Warrensburg, and surrounding areas.
+            </p>
+          </div>
+
+          <div class="form-card">
+            <h3>Grow Questionnaire</h3>
+
+            <form action="mailto:rhinohomegrow@gmail.com" method="post" enctype="text/plain">
+              <div class="form-row">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="Name" type="text" placeholder="Your name" required />
+                </div>
+
+                <div>
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="Phone" type="tel" placeholder="Your phone number" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="Email" type="email" placeholder="Your email" />
+                </div>
+
+                <div>
+                  <label for="location">Location</label>
+                  <input id="location" name="Location" type="text" placeholder="Town / area" />
+                </div>
+              </div>
+
+              <div>
+                <label for="service">What do you need help with?</label>
+                <select id="service" name="Service Requested">
+                  <option value="Full setup planning">Full setup planning</option>
+                  <option value="Remote video monitoring">Remote video monitoring</option>
+                  <option value="Grow tent optimization">Grow tent optimization</option>
+                  <option value="Beginner grow support">Beginner grow support</option>
+                  <option value="Outdoor or hybrid grow planning">Outdoor or hybrid grow planning</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="space">What kind of space are you working with?</label>
+                <input id="space" name="Grow Space" type="text" placeholder="Tent, closet, room, basement, outdoor bed, etc." />
+              </div>
+
+              <div>
+                <label for="message">Tell us about your grow goals</label>
+                <textarea id="message" name="Grow Goals" placeholder="Describe your setup, experience level, budget, timeline, and what you want help with."></textarea>
+              </div>
+
+              <button class="btn btn-primary" type="submit">Send Grow Questionnaire</button>
+
+              <p class="submit-note">
+                Note: This opens your email app with the questionnaire filled out. You can also call,
+                text, email, or message Rhino Homegrow Solutions on Facebook or Instagram.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Rhino Homegrow Solutions. Upstate NY & Adirondack home grow setup, planning, and grow support.
+    </footer>
+  </div>
+</body>
+</html>
